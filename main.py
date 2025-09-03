@@ -4,6 +4,6 @@ from starlette.responses import Response
 app = FastAPI()
 
 
-@app.get("/ping")
+@app.get("/health")
 async def root():
-    return (Response('pong', status_code=200))
+    return (Response('Ok',status_code=200))
