@@ -35,3 +35,11 @@ async def phone(newPhone: List[phonesModel]):
 @app.get("/phones")
 async def phones():
     return JSONResponse(serialized_phone_list(), status_code=200)
+
+@app.get("/phones/{id}")
+async def get_phone_by_id(id: int):
+    for phone in serialized_phone_list():
+        if phone.identifier == id:
+            return JSONResponse(content={"phone": phone}, status_code=200)
+        else:
+            return Response("Phone not found", status_code=404)
