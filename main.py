@@ -43,3 +43,11 @@ async def get_phone_by_id(id: str):
         if phone_data["identifier"] == id:
             return JSONResponse(content={"phone": phone_data}, status_code=200)
     return Response("Phone not found", status_code=404)
+
+@app.put("/phones/{id}/characteristics")
+async def update_phone_characteristics(id: str, characteristics: CharacteristicsModel):
+    for phone in phone_list:
+        if phone.identifier == id:
+            phone.characteristics = characteristics
+            return JSONResponse(content={"phone": phone.model_dump()}, status_code=200)
+    return Response("Phone not found", status_code=404)

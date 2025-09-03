@@ -73,6 +73,35 @@ paths:
             text/plain:
               schema:
                 type: string
+  /phones/{id}/characteristics:
+    put:
+      summary: Update phone characteristics
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The ID of the phone to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Characteristics'
+      responses:
+        '200':
+          description: Characteristics updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Phone'
+        '404':
+          description: Phone not found
+          content:
+            text/plain:
+              schema:
+                type: string
 
 components:
   schemas:
