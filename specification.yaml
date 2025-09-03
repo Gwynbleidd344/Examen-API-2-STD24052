@@ -16,5 +16,81 @@ paths:
             text/plain:
               schema:
                 type: string
+  /phones:
+    get:
+      summary: Returns a list of phones
+      responses:
+        '200':
+          description: A JSON array of phones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Phone'
+    post:
+      summary: Add new phones
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Phone'
+      responses:
+        '201':
+          description: Phones created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  phones:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Phone'
+  /phones/{id}:
+    get:
+      summary: Get a phone by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The ID of the phone to retrieve
+      responses:
+        '200':
+          description: The phone with the specified ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Phone'
+        '404':
+          description: Phone not found
+          content:
+            text/plain:
+              schema:
+                type: string
 
-  
+components:
+  schemas:
+    Characteristics:
+      type: object
+      properties:
+        ram_memory:
+          type: integer
+        rom_memory:
+          type: integer
+    Phone:
+      type: object
+      properties:
+        identifier:
+          type: string
+        brand:
+          type: string
+        model:
+          type: string
+        characteristics:
+          $ref: '#/components/schemas/Characteristics'
