@@ -1,0 +1,20 @@
+openapi: 3.0.3
+info:
+  title: STD24052
+  description: This is a specification of STD24052
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8000'
+paths:
+  /health:
+    get:
+      summary: Returns OK
+      responses:
+        '200':
+          description: returned a pong
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  

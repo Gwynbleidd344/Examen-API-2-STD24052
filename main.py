@@ -6,14 +6,15 @@ from starlette.responses import Response, JSONResponse
 
 app = FastAPI()
 
+class CharacteristicsModel(BaseModel):
+    ram_memory: int
+    rom_memory: int
+
 class phonesModel(BaseModel):
     identifier: str
     brand: str
     model: str
-    characteristics: object = {
-        "ram_memory": int,
-        "rom_memory": int
-    }
+    characteristics: CharacteristicsModel
 
 phone_list: List[phonesModel] = []
 
@@ -30,16 +31,15 @@ async def root():
 @app.post("/phones")
 async def phone(newPhone: List[phonesModel]):
     phone_list.extend(newPhone)
-    return JSONResponse(content={"phones": phone_list}, status_code=201)
+    return JSONResponse(content={"phones": serialized_phone_list()}, status_code=201)
 
 @app.get("/phones")
 async def phones():
     return JSONResponse(serialized_phone_list(), status_code=200)
 
 @app.get("/phones/{id}")
-async def get_phone_by_id(id: int):
-    for phone in serialized_phone_list():
-        if phone.identifier == id:
-            return JSONResponse(content={"phone": phone}, status_code=200)
-        else:
-            return Response("Phone not found", status_code=404)
+async def get_phone_by_id(id: str):
+    for phone_data in serialized_phone_list():
+        if phone_data["identifier"] == id:
+            return JSONResponse(content={"phone": phone_data}, status_code=200)
+    return Response("Phone not found", status_code=404)
